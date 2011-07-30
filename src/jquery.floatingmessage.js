@@ -33,7 +33,7 @@
                 deleteIndex = 0,
                 range = options.range,
                 position = options.position,
-                stuffEaseTime = options.stuffEaseTime,
+                duration = options.duration,
                 stuffEasing = options.stuffEasing,
                 hide = options.hide,
                 close = options.close,
@@ -52,8 +52,8 @@
                 if ( options.position == position && options.range > range ) {
                 	   options.range -= distance;
                     animate[options.verticalAlign] = options.range;
-                    options.elem.animate( animate, {
-                        duration : stuffEaseTime,
+                    options.elem.stop().animate( animate, {
+                        duration : duration,
                         easing : stuffEasing,
                         queue : false
                     } );
@@ -61,14 +61,14 @@
             }
             list.splice( deleteIndex, 1 );
             ranges[position] -= distance;
-            elem.hide( hide, function() {
+            elem.stop().hide( hide, duration, function() {
                 $( this ).remove();
                 if ( close ) close();
             } );
         };
 
     $.floatingMessage = function( message, options ) {
-        var id = "jqueryFloatingMessage" + new Date().getTime() + Math.random(),
+        var id = "jqueryFloatingMessage" + new Date().getTime() + parseInt( Math.random() * 10000, 10 ),
             elem = $( '<div id="'+id+'" class="ui-widget-content ui-corner-all ui-floating-message"></div>' ),
             css = {};
         
@@ -76,7 +76,7 @@
         // default setting
         options = options || {};
         options = $.extend( true, {
-        	    position : "top-left",
+        	position : "top-left",
             verticalAlign : (options.position || "top-left").split("-")[0],
             align : (options.position || "top-left").split("-")[1],
             width : 300,
@@ -86,7 +86,7 @@
             hide : "drop",
             padding : 10,
             margin : 10,
-            stuffEaseTime : 500,
+            duration : 500,
             stuffEasing : "easeOutBounce",
             body : $( "<div></div>" ),
             close : false,
@@ -110,21 +110,21 @@
         css[options.align] = align;
         
         elem.css( css ).append( options.body );
-
-        if ( options.time ) {
-        	    options.timerId = setTimeout( function(){
-        	    		options.click( elem );
-        	    	}, options.time );
-        }
-        if ( options.click ) {
-        		elem.bind( "click.fms", function(){
-        			options.click( elem );
-        		} );
-        }
         elem.bind( "destroy.fms", function(){ remove( elem );} );
 
         $( document.body ).append( elem );
-        elem.show( options.show );
+        if ( options.click ) {
+            elem.bind( "click.fms", function(){
+                options.click( elem );
+            } );
+        }
+        elem.show( options.show, options.duration,function(){
+            if ( options.time ) {
+                    options.timerId = setTimeout( function(){
+                            options.click( elem );
+                        }, options.time );
+            }
+        } );
         container[options.position].push( options );
         ranges[options.position] += ( options.height + options.margin + ( options.padding * 2 ) );
         
