@@ -1,5 +1,5 @@
 /*!
- * Floating Message v1.0.2
+ * Floating Message v1.0.3
  * http://sideroad.secret.jp/
  *
  * Copyright (c) 2009 sideroad
@@ -8,7 +8,7 @@
  * Date: 2009-08-18
  * 
  * @author sideroad
- * @require jQuery
+ * @require jQuery, jQueryUI
  * 
  */
 ( function( $ ) {
@@ -18,7 +18,6 @@
             "bottom-left" : 10,
             "bottom-right" : 10
         },
-        opt = {},
         align = 10,
         container = {
 		    "top-left" : [],
@@ -29,7 +28,7 @@
         remove = function( elem ) {
             var  i,
                 id = elem.attr("id"),
-                options = opt[id],
+                options = elem.data("floating-message"),
                 animate = {},
                 deleteIndex = 0,
                 range = options.range,
@@ -38,22 +37,20 @@
                 stuffEasing = options.stuffEasing,
                 hide = options.hide,
                 close = options.close,
+                timerId = options.timerId,
                 distance = options.height + options.margin + ( options.padding * 2 ) ,
                 list = container[options.position];
 
-            if ( options.timerId ) clearTimeout( options.timerId );
+            if ( timerId ) clearTimeout( timerId );
                 
             for ( i = 0; i < list.length; i++ ) {
                 options = list[i];
-                if ( id === options.id ) {
+                if ( id == options.id ) {
                 	    deleteIndex = i;
                 	    continue;
                 }
                 if ( options.position == position && options.range > range ) {
-                	options.range -= distance;
-                    if ( options.range < 0 ) {
-                    	options.range = 0;
-                    }
+                	   options.range -= distance;
                     animate[options.verticalAlign] = options.range;
                     options.elem.animate( animate, {
                         duration : stuffEaseTime,
@@ -63,11 +60,7 @@
                 }
             }
             list.splice( deleteIndex, 1 );
-            delete opt[id];
             ranges[position] -= distance;
-            if ( ranges[position] < 0 ) {
-            	    ranges[position] = 10;
-            }
             elem.hide( hide, function() {
                 $( this ).remove();
                 if ( close ) close();
@@ -102,7 +95,6 @@
             timerId : false,
             id : id
         }, options );
-        opt[id] = options;
         options.range = ranges[options.position];
 
         if ( message ) options.body.html( message.replace( /\n/g, "<br />" ) );
@@ -136,6 +128,7 @@
         container[options.position].push( options );
         ranges[options.position] += ( options.height + options.margin + ( options.padding * 2 ) );
         
+        elem.data( "floating-message", options );
         return options.body;
 
     };
