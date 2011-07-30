@@ -1,18 +1,21 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>jquery.sidebar.js</title>
-        <link rel="stylesheet" type="text/css" href="css/ui-darkness/jquery-ui-1.7.2.custom.css" />
-        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.8.13/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="src/jquery.floatingmessage.js"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery.floatingmessage.js</title>
+<link rel="stylesheet" type="text/css"
+	href="css/ui-darkness/jquery-ui-1.7.2.custom.css" />
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/ui/1.8.13/jquery-ui.min.js"></script>
+<script type="text/javascript" src="src/jquery.floatingmessage.js"></script>
 
-    </head> 
-    <body style="height:2000px;">
-        <b style="font-size:80px;position:absolute;top:300px;left:28%;" >jquery.floatingmessage</b>
-        <script type="text/javascript">
+</head>
+<body style="height: 2000px;">
+	<b style="font-size: 80px; position: absolute; top: 300px; left: 28%;">jquery.floatingmessage</b>
+	<script type="text/javascript">
             $(document.body).ready(function(){
                 //left-top
                 $("<div>Normal</div>").floatingMessage();
@@ -28,30 +31,34 @@
                 
                 //left-bottom
                 $("<div>Left bottom</div>").floatingMessage({
-                    position : "left-bottom"
+                    position : "bottom-left"
+                });
+                $("<div>Left bottom - padding</div>").floatingMessage({
+                    position : "bottom-left",
+                    padding : 20
                 });
                 $("<div>Left bottom - Display 5sec</div>").floatingMessage({
-                    position : "left-bottom",
+                    position : "bottom-left",
                     time : 5000
                 });
                 
                 //right-top
                 $("<div>Right top</div>").floatingMessage({
-                    position : "right-top"
+                    position : "top-right"
                 });
                 $("<div>Change height </div>").floatingMessage({
-                    position : "right-top",
+                    position : "top-right",
                     height : 25
                 });
                 a = $.floatingMessage("Destroy method1",{
-                    position : "right-top",
+                    position : "top-right",
                     height : 25
                 });
                 setTimeout(function(){
                     a.floatingMessage("destroy");
                 },3000);
                 b = $("<div>Destroy method2</div>").floatingMessage({
-                    position : "right-top",
+                    position : "top-right",
                     height : 25
                 });
                 setTimeout(function(){
@@ -60,18 +67,18 @@
                 
                 //right-bottom
                 $("<div>Right bottm</div>").floatingMessage({
-                    position : "right-bottom"
+                    position : "bottom-right"
                 });
                 $("<div>Change width</div>").floatingMessage({
-                    position : "right-bottom",
+                    position : "bottom-right",
                     width : 50
                 });
                 $("<div>Add class</div>").floatingMessage({
-                    position : "right-bottom",
+                    position : "bottom-right",
                     className : "ui-state-error"
                 });
 
             });
         </script>
-    </body>
+</body>
 </html>
