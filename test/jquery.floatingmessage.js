@@ -5,85 +5,75 @@ module( "floatingmessage" );
 asyncTest( "top-left", function() {
     expect( 12 );
     var elem1 = $( "#fms1" ).floatingMessage({
-            duration : 100
+            duration : 100,
+            open : function(){
+                ok( fms1.is(":visible") );
+                equal( fms1.css("left"), "10px");
+                equal( fms1.css("top"), "10px");
+                notEqual( fms1.css("right"), "10px");
+                notEqual( fms1.css("bottom"), "10px");
+            },
+            close : function(){
+                ok( fms1.is(":hidden") );    
+                elem2.trigger("click");            
+            }
         }),
         fms1 = elem1.parent( ".ui-floating-message" ),
         elem2 = $( "#fms2" ).floatingMessage({
-            duration : 200
+            duration : 200,
+            open : function(){
+                ok( fms2.is(":visible") );
+                equal( fms2.css("left"), "10px");
+                equal( fms2.css("top"), "90px");
+                notEqual( fms2.css("right"), "10px");
+                notEqual( fms2.css("bottom"), "10px");
+                elem1.trigger("click");
+            },
+            close : function(){
+                ok( fms2.is(":hidden") );
+                start();
+            }
         }),
         fms2 = elem2.parent( ".ui-floating-message" );
 
-    setTimeout(function( ){
-        ok( fms1.is(":visible") );
-        equals( fms1.css("top"), "10px");
-        equals( fms1.css("bottom"), "auto");
-        equals( fms1.css("left"), "10px");
-        equals( fms1.css("right"), "auto");
-        setTimeout(function( ){
-            elem1.trigger("click");
-            setTimeout(function(){
-                ok( fms1.is(":hidden") );
-            }, 125 );
-        }, 125);    
-    }, 125);
-    
-    setTimeout(function( ){
-        ok( fms2.is(":visible") );
-        equals( fms2.css("top"), "90px");
-        equals( fms2.css("bottom"), "auto");
-        equals( fms2.css("left"), "10px");
-        equals( fms2.css("right"), "auto");
-        setTimeout(function( ){
-            elem2.trigger("click");
-            setTimeout(function(){
-                ok( fms2.is(":hidden") );
-                start();
-            }, 225 );
-        }, 225);    
-    }, 225);
 });
 
 asyncTest( "bottom-right", function() {
     expect( 12 );
     var elem1 = $( "#fms1" ).floatingMessage({
-        position : "bottom-right",
-            duration : 100
+            position : "bottom-right",
+            duration : 100,
+            open : function(){
+                ok( fms1.is(":visible") );
+                notEqual( fms1.css("left"), "10px");
+                notEqual( fms1.css("top"), "10px");
+                equal( fms1.css("right"), "10px");
+                equal( fms1.css("bottom"), "10px");
+            },
+            close : function(){
+                ok( fms1.is(":hidden") );    
+                elem2.trigger("click");            
+            }
         }),
         fms1 = elem1.parent( ".ui-floating-message" ),
         elem2 = $( "#fms2" ).floatingMessage({
             position : "bottom-right",
-            duration : 200
+            duration : 200,
+            open : function(){
+                ok( fms2.is(":visible") );
+                notEqual( fms2.css("left"), "10px");
+                notEqual( fms2.css("top"), "10px");
+                equal( fms2.css("right"), "10px");
+                equal( fms2.css("bottom"), "90px");
+                elem1.trigger("click");
+            },
+            close : function(){
+                ok( fms2.is(":hidden") );
+                start();
+            }
         }),
         fms2 = elem2.parent( ".ui-floating-message" );
 
-    setTimeout(function( ){
-        ok( fms1.is(":visible") );
-        equals( fms1.css("top"), "auto");
-        equals( fms1.css("bottom"), "10px");
-        equals( fms1.css("left"), "auto");
-        equals( fms1.css("right"), "10px");
-        setTimeout(function( ){
-            elem1.trigger("click");
-            setTimeout(function(){
-                ok( fms1.is(":hidden") );
-            }, 125 );
-        }, 125);    
-    }, 125);
-    
-    setTimeout(function( ){
-        ok( fms2.is(":visible") );
-        equals( fms2.css("top"), "auto");
-        equals( fms2.css("bottom"), "90px");
-        equals( fms2.css("left"), "auto");
-        equals( fms2.css("right"), "10px");
-        setTimeout(function( ){
-            elem2.trigger("click");
-            setTimeout(function(){
-                ok( fms2.is(":hidden") );
-                start();
-            }, 225 );
-        }, 225);    
-    }, 225);
 });
 
 asyncTest("animation" ,function(){

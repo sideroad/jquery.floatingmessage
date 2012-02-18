@@ -47,12 +47,12 @@
             for ( i = 0; i < list.length; i++ ) {
                 options = list[i];
                 if ( id == options.id ) {
-                	    deleteIndex = i;
-                	    continue;
+                    deleteIndex = i;
+                    continue;
                 }
                 
                 if ( options.range > range ) {
-                	   options.range -= distance;
+                    options.range -= distance;
                     animate[options.verticalAlign] = options.range;
                     options.elem.stop().animate( animate, {
                         duration : duration,
@@ -76,13 +76,14 @@
             elem = $( '<div id="'+id+'" class="ui-widget-content ui-corner-all ui-floating-message"></div>' ),
             css = {},
             height = 0,
-            padding = 0;
+            padding = 0,
+            open;
         
 
         // default setting
         options = options || {};
         options = $.extend( true, {
-        	position : "top-left",
+            position : "top-left",
             verticalAlign : (options.position || "top-left").split("-")[0],
             align : (options.position || "top-left").split("-")[1],
             width : 300,
@@ -95,6 +96,7 @@
             duration : 500,
             stuffEasing : "easeOutBounce",
             body : $( "<div></div>" ),
+            open : false,
             close : false,
             click : remove,
             elem : elem,
@@ -104,6 +106,7 @@
         options.range = ranges[options.position];
         height = options.height;
         padding = options.padding;
+        open = options.open;
 
         if ( message ) options.body.html( message.replace( /\n/g, "<br />" ) );
         if ( options.className ) elem.addClass(options.className);
@@ -134,6 +137,7 @@
                         options.click( elem );
                     }, options.time );
             }
+            if(open) open();
         } );
         container[options.position].push( options );
         ranges[options.position] += ( height + options.margin + ( padding * 2 ) );
