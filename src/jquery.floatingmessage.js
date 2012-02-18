@@ -42,14 +42,16 @@
                 list = container[options.position];
 
             if ( timerId ) clearTimeout( timerId );
-                
+             
+            // manipulation same position message 
             for ( i = 0; i < list.length; i++ ) {
                 options = list[i];
                 if ( id == options.id ) {
                 	    deleteIndex = i;
                 	    continue;
                 }
-                if ( options.position == position && options.range > range ) {
+                
+                if ( options.range > range ) {
                 	   options.range -= distance;
                     animate[options.verticalAlign] = options.range;
                     options.elem.stop().animate( animate, {
@@ -59,6 +61,8 @@
                     } );
                 }
             }
+            
+            // delete message
             list.splice( deleteIndex, 1 );
             ranges[position] -= distance;
             elem.stop().hide( hide, duration, function() {
@@ -68,9 +72,11 @@
         };
 
     $.floatingMessage = function( message, options ) {
-        var id = "jqueryFloatingMessage" + new Date().getTime() + parseInt( Math.random() * 10000, 10 ),
+        var id = "jqueryFloatingMessage" + new Date().getTime() + "" + parseInt( Math.random() * 10000, 10 ),
             elem = $( '<div id="'+id+'" class="ui-widget-content ui-corner-all ui-floating-message"></div>' ),
-            css = {};
+            css = {},
+            height = 0,
+            padding = 0;
         
 
         // default setting
@@ -96,21 +102,25 @@
             id : id
         }, options );
         options.range = ranges[options.position];
+        height = options.height;
+        padding = options.padding;
 
         if ( message ) options.body.html( message.replace( /\n/g, "<br />" ) );
         if ( options.className ) elem.addClass(options.className);
 
         css = {
             width : options.width + "px",
-            height : options.height + "px",
+            height : height + "px",
             position : "fixed",
-            padding : options.padding + "px"
+            padding : padding + "px"
         };
         css[options.verticalAlign] = ranges[options.position];
         css[options.align] = align;
         
         elem.css( css ).append( options.body );
-        elem.bind( "destroy.fms", function(){ remove( elem );} );
+        elem.bind( "destroy.fms", function(){ 
+            remove( elem );
+        } );
 
         $( document.body ).append( elem );
         if ( options.click ) {
@@ -121,12 +131,12 @@
         elem.show( options.show, options.duration,function(){
             if ( options.time ) {
                     options.timerId = setTimeout( function(){
-                            options.click( elem );
-                        }, options.time );
+                        options.click( elem );
+                    }, options.time );
             }
         } );
         container[options.position].push( options );
-        ranges[options.position] += ( options.height + options.margin + ( options.padding * 2 ) );
+        ranges[options.position] += ( height + options.margin + ( padding * 2 ) );
         
         elem.data( "floating-message", options );
         return options.body;

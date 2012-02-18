@@ -88,7 +88,7 @@ asyncTest( "bottom-right", function() {
 
 asyncTest("animation" ,function(){
     expect( 2 );
-    var elem1 = $.floatingMessage("String Message", {
+    var elem1 = $("#fms1").floatingMessage( {
             duration : 100,
             show : "puff",
             hide : "puff",
@@ -98,6 +98,27 @@ asyncTest("animation" ,function(){
     
     setTimeout(function( ){
         ok( fms1.is(":visible") );
+        setTimeout(function( ){
+            elem1.trigger("click");
+            setTimeout(function(){
+                ok( fms1.is(":hidden") );
+                start();
+            }, 125 );
+        }, 125);    
+    }, 125);
+});
+
+asyncTest("add class" ,function(){
+    expect( 3 );
+    var elem1 = $("#fms1").floatingMessage( {
+            duration : 100,
+            className : "ui-state-error"
+        }),
+        fms1 = elem1.parent( ".ui-floating-message" );
+    
+    setTimeout(function( ){
+        ok( fms1.is(":visible") );
+        ok( fms1.hasClass("ui-state-error") );
         setTimeout(function( ){
             elem1.trigger("click");
             setTimeout(function(){
