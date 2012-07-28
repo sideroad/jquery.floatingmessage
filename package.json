@@ -1,0 +1,37 @@
+{
+  "name": "jquery.floatingmessage",
+  "title": "jQuery Floating Message",
+  "description": "A jQuery plugin that displays floating message.",
+  "version": "1.0.3",
+  "homepage": "https://github.com/sideroad/jquery.floatingmessage",
+  "author": {
+    "name": "sideroad",
+    "url": "http://sideroad.secret.jp/"
+  },
+  "maintainers": [
+    {
+      "name": "sideroad",
+      "email": "sideroad.jp@gmail.com",
+      "url": "http://sideroad.secret.jp/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sideroad/jquery.floatingmessage.git"
+  },
+  "bugs": "https://github.com/sideroad/jquery.floatingmessage/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    },
+    {
+      "type": "GPL",
+      "url": "http://www.opensource.org/licenses/GPL-2.0"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+  },
+  "keywords": [ "floating", "message", "notify" ]
+}
