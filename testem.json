@@ -1,3 +1,1 @@
-{
-    "test_page": "test/jquery.floatingmessage.html"
-}
+{"launch_in_ci":["PhantomJS"],"tap":"tests.tap","test_page":"test/jquery.floatingmessage.html"}

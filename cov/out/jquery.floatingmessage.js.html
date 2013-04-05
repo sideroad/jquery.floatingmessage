@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .code {
+            white-space: pre;
+            font-family: courier new;
+            width: 100%;            
+        }
+        
+        .miss {
+            background-color: #FF0000;
+        }
+        
+        .hit {
+            background-color: #94FF7C;
+        }
+        
+        .undef {
+            background-color: #FFFFFF;
+        } 
+
+        .nottested {
+            background-color: #FFFF00;
+        }         
+    </style>
+</head>
+<body>
+
+<div class="code undef">/*!</div>
+<div class="code undef"> * Floating Message v1.0.3</div>
+<div class="code undef"> * http://sideroad.secret.jp/</div>
+<div class="code undef"> *</div>
+<div class="code undef"> * Copyright (c) 2009 sideroad</div>
+<div class="code undef"> *</div>
+<div class="code undef"> * Dual licensed under the MIT or GPL Version 2 licenses.</div>
+<div class="code undef"> * Date: 2009-08-18</div>
+<div class="code undef"> * </div>
+<div class="code undef"> * @author sideroad</div>
+<div class="code undef"> * @require jQuery, jQueryUI</div>
+<div class="code undef"> * </div>
+<div class="code undef"> */</div>
+<div class="code hit">( function( $ ) {</div>
+<div class="code hit">    var ranges = {</div>
+<div class="code undef">            "top-left" : 10,</div>
+<div class="code undef">            "top-right" : 10,</div>
+<div class="code undef">            "bottom-left" : 10,</div>
+<div class="code undef">            "bottom-right" : 10</div>
+<div class="code undef">        },</div>
+<div class="code undef">        align = 10,</div>
+<div class="code undef">        container = {</div>
+<div class="code undef">		    "top-left" : [],</div>
+<div class="code undef">		    "top-right" : [],</div>
+<div class="code undef">		    "bottom-left" : [],</div>
+<div class="code undef">		    "bottom-right" : []</div>
+<div class="code undef">        },</div>
+<div class="code undef">        remove = function( elem ) {</div>
+<div class="code hit">            var  i,</div>
+<div class="code undef">                id = elem.attr("id"),</div>
+<div class="code undef">                options = elem.data("floating-message"),</div>
+<div class="code undef">                animate = {},</div>
+<div class="code undef">                deleteIndex = 0,</div>
+<div class="code undef">                range = options.range,</div>
+<div class="code undef">                position = options.position,</div>
+<div class="code undef">                duration = options.duration,</div>
+<div class="code undef">                stuffEasing = options.stuffEasing,</div>
+<div class="code undef">                hide = options.hide,</div>
+<div class="code undef">                close = options.close,</div>
+<div class="code undef">                timerId = options.timerId,</div>
+<div class="code undef">                distance = options.height + options.margin + ( options.padding * 2 ) ,</div>
+<div class="code undef">                list = container[options.position];</div>
+<div class="code undef"></div>
+<div class="code hit">            if ( timerId ) clearTimeout( timerId );</div>
+<div class="code undef">             </div>
+<div class="code undef">            // manipulation same position message </div>
+<div class="code hit">            for ( i = 0; i &lt; list.length; i++ ) {</div>
+<div class="code hit">                options = list[i];</div>
+<div class="code hit">                if ( id == options.id ) {</div>
+<div class="code hit">                    deleteIndex = i;</div>
+<div class="code hit">                    continue;</div>
+<div class="code undef">                }</div>
+<div class="code undef">                </div>
+<div class="code hit">                if ( options.range &gt; range ) {</div>
+<div class="code hit">                    options.range -= distance;</div>
+<div class="code hit">                    animate[options.verticalAlign] = options.range;</div>
+<div class="code hit">                    options.elem.stop().animate( animate, {</div>
+<div class="code undef">                        duration : duration,</div>
+<div class="code undef">                        easing : stuffEasing,</div>
+<div class="code undef">                        queue : false</div>
+<div class="code undef">                    } );</div>
+<div class="code undef">                }</div>
+<div class="code undef">            }</div>
+<div class="code undef">            </div>
+<div class="code undef">            // delete message</div>
+<div class="code hit">            list.splice( deleteIndex, 1 );</div>
+<div class="code hit">            ranges[position] -= distance;</div>
+<div class="code hit">            elem.stop().hide( hide, duration, function() {</div>
+<div class="code hit">                $( this ).remove();</div>
+<div class="code hit">                if ( close ) close();</div>
+<div class="code undef">            } );</div>
+<div class="code undef">        };</div>
+<div class="code undef"></div>
+<div class="code hit">    $.floatingMessage = function( message, options ) {</div>
+<div class="code hit">        var id = "jqueryFloatingMessage" + new Date().getTime() + "" + parseInt( Math.random() * 10000, 10 ),</div>
+<div class="code undef">            elem = $( '&lt;div id="'+id+'" class="ui-widget-content ui-corner-all ui-floating-message"&gt;</div>' ),</div>
+<div class="code undef">            css = {},</div>
+<div class="code undef">            height = 0,</div>
+<div class="code undef">            padding = 0,</div>
+<div class="code undef">            open;</div>
+<div class="code undef">        </div>
+<div class="code undef"></div>
+<div class="code undef">        // default setting</div>
+<div class="code hit">        options = options || {};</div>
+<div class="code hit">        options = $.extend( true, {</div>
+<div class="code undef">            position : "top-left",</div>
+<div class="code undef">            verticalAlign : (options.position || "top-left").split("-")[0],</div>
+<div class="code undef">            align : (options.position || "top-left").split("-")[1],</div>
+<div class="code undef">            width : 300,</div>
+<div class="code undef">            height : 50,</div>
+<div class="code undef">            time : false,</div>
+<div class="code undef">            show : "drop",</div>
+<div class="code undef">            hide : "drop",</div>
+<div class="code undef">            padding : 10,</div>
+<div class="code undef">            margin : 10,</div>
+<div class="code undef">            duration : 500,</div>
+<div class="code undef">            stuffEasing : "easeOutBounce",</div>
+<div class="code undef">            body : $( "&lt;div&gt;</div>" ),</div>
+<div class="code undef">            open : false,</div>
+<div class="code undef">            close : false,</div>
+<div class="code undef">            click : remove,</div>
+<div class="code undef">            elem : elem,</div>
+<div class="code undef">            timerId : false,</div>
+<div class="code undef">            id : id</div>
+<div class="code undef">        }, options );</div>
+<div class="code hit">        options.range = ranges[options.position];</div>
+<div class="code hit">        height = options.height;</div>
+<div class="code hit">        padding = options.padding;</div>
+<div class="code hit">        open = options.open;</div>
+<div class="code undef"></div>
+<div class="code hit">        if ( message ) options.body.html( message.replace( /\n/g, "&lt;br /&gt;" ) );</div>
+<div class="code hit">        if ( options.className ) elem.addClass(options.className);</div>
+<div class="code undef"></div>
+<div class="code hit">        css = {</div>
+<div class="code undef">            width : options.width + "px",</div>
+<div class="code undef">            height : height + "px",</div>
+<div class="code undef">            position : "fixed",</div>
+<div class="code undef">            padding : padding + "px"</div>
+<div class="code undef">        };</div>
+<div class="code hit">        css[options.verticalAlign] = ranges[options.position];</div>
+<div class="code hit">        css[options.align] = align;</div>
+<div class="code undef">        </div>
+<div class="code hit">        elem.css( css ).append( options.body );</div>
+<div class="code hit">        elem.bind( "destroy.fms", function(){ </div>
+<div class="code hit">            remove( elem );</div>
+<div class="code undef">        } );</div>
+<div class="code undef"></div>
+<div class="code hit">        $( document.body ).append( elem );</div>
+<div class="code hit">        if ( options.click ) {</div>
+<div class="code hit">            elem.bind( "click.fms", function(){</div>
+<div class="code hit">                options.click( elem );</div>
+<div class="code undef">            } );</div>
+<div class="code undef">        }</div>
+<div class="code hit">        elem.show( options.show, options.duration,function(){</div>
+<div class="code hit">            if ( options.time ) {</div>
+<div class="code hit">                    options.timerId = setTimeout( function(){</div>
+<div class="code hit">                        options.click( elem );</div>
+<div class="code undef">                    }, options.time );</div>
+<div class="code undef">            }</div>
+<div class="code hit">            if(open) open();</div>
+<div class="code undef">        } );</div>
+<div class="code hit">        container[options.position].push( options );</div>
+<div class="code hit">        ranges[options.position] += ( height + options.margin + ( padding * 2 ) );</div>
+<div class="code undef">        </div>
+<div class="code hit">        elem.data( "floating-message", options );</div>
+<div class="code hit">        return options.body;</div>
+<div class="code undef"></div>
+<div class="code undef">    };</div>
+<div class="code undef"></div>
+<div class="code hit">    $.fn.floatingMessage = function( options ) {</div>
+<div class="code hit">        return this.each( function() {</div>
+<div class="code hit">            if ( typeof options == "string" ) {</div>
+<div class="code hit">                $( this ).parent(".ui-floating-message").trigger( options+".fms" );</div>
+<div class="code undef">            } else {</div>
+<div class="code hit">                options = options || {};</div>
+<div class="code hit">                options.body = this;</div>
+<div class="code hit">                $.floatingMessage( false, options );</div>
+<div class="code undef">            }</div>
+<div class="code undef">        } );</div>
+<div class="code undef">    };</div>
+<div class="code undef">} )( jQuery );</div>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+TAP version 13
+ok 1 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: top-left
+ok 2 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: bottom-right
+ok 3 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: animation
+ok 4 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: add class
+ok 5 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: string message
+ok 6 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: destroy method
+ok 7 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: time
+ok 8 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: close event
+ok 9 - test/jquery.floatingmessage.html - PhantomJS floatingmessage: click override
+
+1..9
+# tests 9
+# pass 9
+# fail 0

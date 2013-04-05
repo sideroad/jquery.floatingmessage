@@ -1,7 +1,3 @@
-/*! jQuery Floating Message - v1.0.3 - 2012-08-15
-* https://github.com/sideroad/jquery.floatingmessage
-* Copyright (c) 2012 sideroad; Licensed MIT, GPL */
-
 /*!
  * Floating Message v1.0.3
  * http://sideroad.secret.jp/
